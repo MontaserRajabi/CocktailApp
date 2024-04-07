@@ -14,9 +14,4 @@ public class Milk extends Ingredients{
         super(name, calories, volume, 255, 255, 255);
     }
 
-   
-
-
-
- 
 }
