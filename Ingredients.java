@@ -1,15 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package cocktailapp;
-
 import java.awt.Color;
-
-/**
- *
- * @author MontaserPC
- */
 public abstract  class  Ingredients{
     private String name;
     private double calories;
@@ -54,5 +44,17 @@ public abstract  class  Ingredients{
     public void setColorRGB(int n1, int n2, int n3) {
         this.color = new Color(n1, n2, n3);
     }
+
+   
+    public String toStringColor() {
+        return   "color=" + color.toString() ;
+    }
+
+    
+    public String getInfo() {
+        return "Ingredients{" + "name=" + name + ", calories=" + calories + ", volume=" + volume + ", color=" + color.toString() + '}';
+    }
+    
+    
 
 }
