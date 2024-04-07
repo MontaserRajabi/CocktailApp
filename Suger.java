@@ -11,7 +11,7 @@ package cocktailapp;
 public class Suger extends Ingredients{
 
     public Suger(String name, double calories, double volume ) {
-        super(name, 387, volume, 255, 255, 255);
+        super(name, calories, volume, 255, 255, 255);
     }
      
 }
