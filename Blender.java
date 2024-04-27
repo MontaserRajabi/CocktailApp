@@ -1,4 +1,7 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package cocktailapp;
 
 import java.awt.Color;
@@ -8,15 +11,27 @@ public class Blender {
 
     private ArrayList<Ingredients> ingred = new ArrayList<>();
     private int capacity;
-    private int totalCalories;
-    private int volume;
-    private Color color;
-
+    private double totalCalories;
+    private double volume;
+    private Color color , mixed;
+    private double calPerMl;
+   
+    
     public Blender(int capacity) {
         this.capacity = capacity;
         this.totalCalories = 0;
         this.volume = 0;
+        this.mixed = new Color(255,255,255);
     }
+
+    public double getCalPerMl() {
+        return calPerMl;
+    }
+
+    public void setCalPerMl(double calPerMl) {
+        this.calPerMl = this.totalCalories/this.volume;
+    }
+    
 
     public static Color mixColors(Color color1, Color color2) {
         int red = (color1.getRed() + color2.getRed()) / 2;
@@ -24,10 +39,41 @@ public class Blender {
         int blue = (color1.getBlue() + color2.getBlue()) / 2;
 
         return new Color(red, green, blue);
+        
+    }
+    
+    
+     public void pourIntoCup(Cup cup) throws BlenderEmptyException {
+        if(this.volume>0){
+         if (cup.getCapacity()== 0) {
+            System.out.println("Blender is empty. Cannot pour into cup.");
+        }
+        
+            if (cup.getCapacity()>volume) {
+                cup.setContentCalories((int)(this.volume * this.calPerMl));
+                this.volume=0;
+            }
+            else{
+                this.volume -= cup.getCapacity();
+                cup.setContentCalories((int)(cup.getCapacity()*this.calPerMl));
+            }
+        }
+        else{
+            throw new BlenderEmptyException();
+        }
+         
+    }
+    
+
+    public void blend(){
+        System.out.println("Blending ingredients...");
+        System.out.println("The final color of the cocktail is :" + mixed.toString() );
+        System.out.println("The total Calories is : " + this.totalCalories);
+       this.calPerMl = (double)(this.totalCalories) / (double) (this.volume);
     }
 
-    public void blend() {
-        System.out.println("Blending ingredients...");
+    public void setVolume(int volume) {
+        this.volume = volume;
     }
 
     public int totalCalories() {
@@ -53,24 +99,29 @@ public class Blender {
         return total;
     }
 
-    public int getTotalCalories() {
+    public double getTotalCalories() {
         return totalCalories;
     }
 
-    public int getVolume() {
+    public double getVolume() {
         return volume;
     }
 
-    public void addIngredient(Ingredients ing) {
+    public void addIngredient(Ingredients ing)throws BlenderOverFlowException{
         if (totalVolume() + ing.getVolume() <= capacity) {
             ingred.add(ing);
+            mixed = mixColors(mixed, ing.getColor());
         } else {
-            System.out.println("Blender Capacity Full!");
+           throw new BlenderOverFlowException();
         }
 
         totalCalories += ing.getCalories();
         volume += ing.getVolume();
-        Color mixedColor = mixColors(color, ing.getColor());
+        
+    }
+
+    public int getCapacity() {
+        return capacity;
     }
 
     public String getInfo() {
