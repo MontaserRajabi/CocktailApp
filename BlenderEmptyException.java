@@ -4,10 +4,6 @@
  */
 package cocktailapp;
 
-/**
- *
- * @author MontaserPC
- */
 public class BlenderEmptyException extends Exception {
     public BlenderEmptyException() {
         super("The blender is empty!");
