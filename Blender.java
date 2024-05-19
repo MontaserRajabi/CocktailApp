@@ -1,27 +1,31 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package cocktailapp;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import loggerPack.ConsoleLogger;
+import loggerPack.Logger;
+
+
+
 
 public class Blender {
 
+
     private ArrayList<Ingredients> ingred = new ArrayList<>();
-    private int capacity;
+    private double capacity;
     private double totalCalories;
     private double volume;
     private Color color , mixed;
     private double calPerMl;
-   
+    private loggerPack.Logger Logger = new ConsoleLogger();
     
-    public Blender(int capacity) {
+    public Blender(double capacity , Logger logger) {
         this.capacity = capacity;
         this.totalCalories = 0;
         this.volume = 0;
         this.mixed = new Color(255,255,255);
+        this.Logger = logger;
     }
 
     public double getCalPerMl() {
@@ -46,10 +50,11 @@ public class Blender {
      public void pourIntoCup(Cup cup) throws BlenderEmptyException {
         if(this.volume>0){
          if (cup.getCapacity()== 0) {
-            System.out.println("Blender is empty. Cannot pour into cup.");
+            this.Logger.log("Blender is empty. Cannot pour into cup.");
         }
         
             if (cup.getCapacity()>volume) {
+                this.Logger.log("Pouring......");
                 cup.setContentCalories((int)(this.volume * this.calPerMl));
                 this.volume=0;
             }
@@ -65,14 +70,18 @@ public class Blender {
     }
     
 
-    public void blend(){
-        System.out.println("Blending ingredients...");
-        System.out.println("The final color of the cocktail is :" + mixed.toString() );
-        System.out.println("The total Calories is : " + this.totalCalories);
-       this.calPerMl = (double)(this.totalCalories) / (double) (this.volume);
+    public Cocktail blend(){
+        this.Logger.log("Adding ingreidents ");
+        Cocktail cocktail = new Cocktail();
+        cocktail.setCalories(totalCalories);
+        cocktail.setColor(mixed);
+        cocktail.setVolume(volume);
+        this.calPerMl = (double)(this.totalCalories) / (double) (this.volume);
+        return cocktail;
+            
     }
 
-    public void setVolume(int volume) {
+    public void setVolume(double volume) {
         this.volume = volume;
     }
 
@@ -114,18 +123,17 @@ public class Blender {
         } else {
            throw new BlenderOverFlowException();
         }
-
         totalCalories += ing.getCalories();
         volume += ing.getVolume();
         
     }
 
-    public int getCapacity() {
+    public double getCapacity() {
         return capacity;
     }
 
     public String getInfo() {
-        return "Blender{" + "ingred=" + ingred + ", capacity=" + capacity + ", totalCalories=" + totalCalories + ", volume=" + volume + ", color=" + color.toString() + '}';
+        return  " capacity :"+ capacity  + "  \ntotalCalories :" + totalCalories+ "\nCalories Per Mile :"+calPerMl+"\nvolume  :" +volume+ "\ncolor :" + mixed.toString();
     }
 
 }
