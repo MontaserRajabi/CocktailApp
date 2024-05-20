@@ -21,10 +21,7 @@ import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 import loggerPack.ConsoleLogger;
 
-/**
- *
- * @author MontaserPC
- */
+
 public class CocktailForm extends javax.swing.JFrame {
    
    private Milk milk;
@@ -737,6 +734,7 @@ public class CocktailForm extends javax.swing.JFrame {
         CupTextArea.setText(cup.getInfo());
         BlenderTextArea.setText(blender.getInfo());
         FinalColorPanel.setBackground(cocktail.getColor()); 
+       jTabbedPane1.setSelectedIndex(2);
     }//GEN-LAST:event_BlendBActionPerformed
 
     private void AddSugerCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddSugerCBActionPerformed
